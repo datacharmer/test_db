@@ -1,0 +1,25 @@
+1.0.7 2015-08-30
+	- Moved to GitHub
+	- Fixed bug#393423 Duplicate key in dept_manager
+	- Fixed bug#393429 Column order in employees.dept_manager is incorrect
+	- Adapted partitioned structure to MySQL 5.5+ syntax
+1.0.6 2009-03-29
+	- fixed bug#320513 - employees with same start date are counted twice
+1.0.5 2008-08-02
+	- removed comment for FK in employees.sql 
+	- added some database objects (views, stored procedures and functions)
+1.0.4 2008-07-26
+	- fixed bug in test_employees 
+	- added partitioning to employees.sql (saved as employees_partitioned.sql)
+1.0.3 2008-07-19
+	- adapted for testing on MD5 or SHA1 (two separated test files)
+	- removed views and table changelog
+1.0.2 2008-03-15
+	- Added support for PBXT - replaced LOAD DATA with SQL dumps
+1.0.1 2008-01-04
+	- Adapted code to run on 4.1
+1.0.0 2008-01-03
+    - Based on a work by Fusheng Wang and Carlo Zaniolo 
+    - modified by Giuseppe Maxia and Patrick Crews
+	- Initial release
+	- no known bugs
