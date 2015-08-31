@@ -32,7 +32,7 @@ CREATE TABLE expected_values (
     recs int not null,
     crc_sha varchar(100) not null,
     crc_md5 varchar(100) not null
-) ENGINE=MyISAM;
+) ENGINE=memory;
 CREATE TABLE found_values LIKE expected_values;
 
 INSERT INTO `expected_values` VALUES 
@@ -43,9 +43,7 @@ INSERT INTO `expected_values` VALUES
 ('dept_manager',    24,'9687a7d6f93ca8847388a42a6d8d93982a841c6c',
                        '8720e2f0853ac9096b689c14664f847e'),
 ('dept_emp',    331603, 'd95ab9fe07df0865f592574b3b33b9c741d9fd1b',
-                       # 'f16f6ce609d032d6b1b34748421e9195c5083da8', Bug#320513
                        'ccf6fe516f990bdaa49713fc478701b7'),
-                       # 'c2c4fc7f0506e50959a6c67ad55cac31'),
 ('titles',      443308,'d12d5f746b88f07e69b9e36675b6067abb01b60e',
                        'bfa016c472df68e70a03facafa1bc0a8'),
 ('salaries',   2844047,'b5a1785c27d75e33a4173aaa22ccf41ebd7d4a9f',
@@ -53,7 +51,7 @@ INSERT INTO `expected_values` VALUES
 SELECT table_name, recs AS expected_records, crc_sha AS expected_crc FROM expected_values;
 
 DROP TABLE IF EXISTS tchecksum;
-CREATE TABLE tchecksum (chk char(100)) ENGINE=myisam;
+CREATE TABLE tchecksum (chk char(100)) ENGINE=blackhole;
 
 SET @crc= '';
 
@@ -62,35 +60,30 @@ INSERT INTO tchecksum
                 emp_no,birth_date,first_name,last_name,gender,hire_date)) 
     FROM employees ORDER BY emp_no;
 INSERT INTO found_values VALUES ('employees', (SELECT COUNT(*) FROM employees), @crc,@crc);
-TRUNCATE tchecksum; -- if BlackHole is not available
 
 SET @crc = '';
 INSERT INTO tchecksum 
     SELECT @crc := sha(CONCAT_WS('#',@crc, dept_no,dept_name)) 
     FROM departments ORDER BY dept_no;
 INSERT INTO found_values values ('departments', (SELECT COUNT(*) FROM departments), @crc,@crc);
-TRUNCATE tchecksum; 
 
 SET @crc = '';
 INSERT INTO tchecksum 
     SELECT @crc := sha(CONCAT_WS('#',@crc, dept_no,emp_no, from_date,to_date)) 
     FROM dept_manager ORDER BY dept_no,emp_no;
 INSERT INTO found_values values ('dept_manager', (SELECT COUNT(*) FROM dept_manager), @crc,@crc);
-TRUNCATE tchecksum; 
 
 SET @crc = '';
 INSERT INTO tchecksum 
     SELECT @crc := sha(CONCAT_WS('#',@crc, dept_no,emp_no, from_date,to_date)) 
     FROM dept_emp ORDER BY dept_no,emp_no;
 INSERT INTO found_values values ('dept_emp', (SELECT COUNT(*) FROM dept_emp), @crc,@crc);
-TRUNCATE tchecksum; 
 
 SET @crc = '';
 INSERT INTO tchecksum 
     SELECT @crc := sha(CONCAT_WS('#',@crc, emp_no, title, from_date,to_date)) 
     FROM titles order by emp_no,title, from_date;
 INSERT INTO found_values values ('titles', (SELECT COUNT(*) FROM titles), @crc,@crc);
-TRUNCATE tchecksum; 
 
 SET @crc = '';
 INSERT INTO tchecksum 
