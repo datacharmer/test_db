@@ -95,7 +95,7 @@ CREATE TABLE salaries (
 ) 
 ; 
 
-flush binary logs;
+flush /*!50503 binary */ logs;
 
 SELECT 'LOADING departments' as 'INFO';
 source load_departments.dump ;

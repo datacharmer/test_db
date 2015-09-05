@@ -167,6 +167,8 @@ partition by range (to_days(from_date))
 )
 */;
 
+flush /*!50503 binary */ logs;
+
 SELECT 'LOADING departments' as 'INFO';
 source load_departments.dump ;
 SELECT 'LOADING employees' as 'INFO';
