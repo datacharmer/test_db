@@ -35,13 +35,8 @@ DROP TABLE IF EXISTS dept_emp,
                      employees, 
                      departments;
 
-   set default_storage_engine = InnoDB;
--- set storage_engine = MyISAM;
--- set storage_engine = Falcon;
--- set storage_engine = PBXT;
--- set storage_engine = Maria;
-
-select CONCAT('storage engine: ', @@default_storage_engine) as INFO;
+/*!50503 set default_storage_engine = InnoDB */;
+/*!50503 select CONCAT('storage engine: ', @@default_storage_engine) as INFO */;
 
 CREATE TABLE employees (
     emp_no      INT             NOT NULL,
@@ -89,7 +84,7 @@ CREATE TABLE titles (
     PRIMARY KEY (emp_no,title, from_date)
 ); 
 
-/**/
+/*!50510
 ALTER TABLE titles 
 partition by range COLUMNS (from_date)
 (
@@ -112,8 +107,8 @@ partition by range COLUMNS (from_date)
     partition p17 values less than ('2001-12-31'),
     partition p18 values less than ('2002-12-31'),
     partition p19 values less than (MAXVALUE)
-);
-/**/
+)
+*/;
 
 CREATE TABLE salaries (
     emp_no      INT             NOT NULL,
@@ -123,7 +118,8 @@ CREATE TABLE salaries (
     # FOREIGN KEY (emp_no) REFERENCES employees (emp_no) ON DELETE CASCADE,
     PRIMARY KEY (emp_no, from_date)
 ); 
-/* */
+
+/*!50510
 ALTER TABLE salaries
 partition by range COLUMNS (from_date)
 (
@@ -146,8 +142,8 @@ partition by range COLUMNS (from_date)
     partition p17 values less than ('2001-12-31'),
     partition p18 values less than ('2002-12-31'),
     partition p19 values less than (MAXVALUE)
-);
-/**/
+)
+*/;
 
 SELECT 'LOADING departments' as 'INFO';
 source load_departments.dump ;
