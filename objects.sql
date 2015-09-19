@@ -5,6 +5,7 @@ drop function if exists emp_dept_id //
 drop function if exists emp_dept_name //
 drop function if exists emp_name //
 drop function if exists current_manager //
+drop procedure if exists show_departments //
 
 --
 -- returns the department id of a given employee
@@ -15,22 +16,22 @@ reads sql data
 begin
     declare max_date date;
     set max_date = (
-        select 
-            max(from_date) 
-        from 
-            dept_emp 
-        where 
+        select
+            max(from_date)
+        from
+            dept_emp
+        where
             emp_no = employee_id
     );
     set @max_date=max_date;
     return (
-        select 
+        select
             dept_no
-        from 
+        from
             dept_emp
-        where 
+        where
             emp_no = employee_id
-            and 
+            and
             from_date = max_date
             limit 1
     );
@@ -47,7 +48,7 @@ begin
     return (
         select
             dept_name
-        from 
+        from
             departments
         where
             dept_no = emp_dept_id(employee_id)
@@ -62,11 +63,11 @@ returns varchar(32)
 reads SQL data
 begin
     return (
-        select 
+        select
             concat(first_name, ' ', last_name) as name
-        from 
+        from
             employees
-        where 
+        where
             emp_no = employee_id
     );
 end//
@@ -82,22 +83,22 @@ reads sql data
 begin
     declare max_date date;
     set max_date = (
-        select 
-            max(from_date) 
-        from 
-            dept_manager 
-        where 
+        select
+            max(from_date)
+        from
+            dept_manager
+        where
             dept_no = dept_id
     );
     set @max_date=max_date;
     return (
-        select 
+        select
             emp_name(emp_no)
-        from 
+        from
             dept_manager
-        where 
+        where
             dept_no = dept_id
-            and 
+            and
             from_date = max_date
             limit 1
     );
@@ -112,16 +113,16 @@ delimiter ;
 
 CREATE OR REPLACE VIEW  v_full_employees
 AS
-SELECT 
-    emp_no, 
-    first_name , last_name , 
-    birth_date , gender,  
+SELECT
+    emp_no,
+    first_name , last_name ,
+    birth_date , gender,
     hire_date,
-    emp_dept_name(emp_no) as department 
-from 
+    emp_dept_name(emp_no) as department
+from
     employees;
 
--- 
+--
 -- selects the department list with manager names
 --
 
@@ -138,7 +139,6 @@ delimiter //
 -- shows the departments with the number of employees
 -- per department
 --
-drop procedure if exists show_departments //
 create procedure show_departments()
 modifies sql data
 begin
@@ -153,36 +153,73 @@ begin
     );
     INSERT INTO department_max_date
     SELECT
-        emp_no, max(from_date), max(to_date) 
+        emp_no, max(from_date), max(to_date)
     FROM
         dept_emp
     GROUP BY
         emp_no;
 
-    CREATE TEMPORARY TABLE department_people 
+    CREATE TEMPORARY TABLE department_people
     (
         emp_no int not null,
         dept_no char(4) not null,
         primary key (emp_no, dept_no)
     );
 
-    insert into department_people 
+    insert into department_people
     select dmd.emp_no, dept_no
-    from 
-        department_max_date dmd 
-        inner join dept_emp de 
-            on dmd.dept_from_date=de.from_date 
+    from
+        department_max_date dmd
+        inner join dept_emp de
+            on dmd.dept_from_date=de.from_date
             and dmd.dept_to_date=de.to_date
             and dmd.emp_no=de.emp_no;
-    SELECT 
-        dept_no,dept_name,manager, count(*) 
-        from v_full_departments 
-            inner join department_people using (dept_no) 
+    SELECT
+        dept_no,dept_name,manager, count(*)
+        from v_full_departments
+            inner join department_people using (dept_no)
         group by dept_no;
         # with rollup;
     DROP TABLE department_max_date;
     DROP TABLE department_people;
 end //
+
+drop function if exists employees_usage //
+drop procedure if exists employees_help //
+
+CREATE FUNCTION employees_usage ()
+RETURNS TEXT
+DETERMINISTIC
+BEGIN
+    RETURN
+'
+    == USAGE ==
+    ====================
+
+    PROCEDURE show_departments()
+
+        shows the departments with the manager and
+        number of employees per department
+
+    FUNCTION current_manager (dept_id)
+
+        Shows who is the manager of a given departmennt
+
+    FUNCTION emp_name (emp_id)
+
+        Shows name and surname of a given employee
+
+    FUNCTION emp_dept_id (emp_id)
+
+        Shows the current department of given employee
+';
+END //
+
+create procedure employees_help()
+deterministic
+begin
+    select employees_usage() as info;
+end//
 
 delimiter ;
 
