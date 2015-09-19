@@ -32,7 +32,11 @@ CREATE TABLE expected_values (
     recs int not null,
     crc_sha varchar(100) not null,
     crc_md5 varchar(100) not null
-) ENGINE=memory;
+) ENGINE=MyISAM;
+
+-- In MySQL 5.0, the creation and update time for  memory tables is not recorded
+/*!50130 ALTER TABLE expected_values engine=memory */;
+
 CREATE TABLE found_values LIKE expected_values;
 
 INSERT INTO `expected_values` VALUES 
@@ -102,6 +106,17 @@ SELECT
 from 
     expected_values e INNER JOIN found_values f USING (table_name); 
 
+set @crc_fail=(select count(*) from expected_values e inner join found_values f on (e.table_name=f.table_name) where f.crc_sha != e.crc_sha);
+set @count_fail=(select count(*) from expected_values e inner join found_values f on (e.table_name=f.table_name) where f.recs != e.recs);
+
+select timediff(
+    now(),
+    (select create_time from information_schema.tables where table_schema='employees' and table_name='expected_values')
+) as computation_time;
 DROP TABLE expected_values,found_values;
+
+select 'CRC' as summary,  if(@crc_fail = 0, "OK", "FAIL" ) as 'result'
+union all
+select 'count', if(@count_fail = 0, "OK", "FAIL" ) as 'count';
 
 
