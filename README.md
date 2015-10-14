@@ -10,8 +10,7 @@ See usage in the [MySQL docs](https://dev.mysql.com/doc/employee/en/index.html)
 
 The original data was created by Fusheng Wang and Carlo Zaniolo at 
 Siemens Corporate Research. The data is in XML format.
-http://www.cs.aau.dk/TimeCenter/software.htm
-http://www.cs.aau.dk/TimeCenter/Data/employeeTemporalDataSet.zip
+http://timecenter.cs.aau.dk/software.htm
 
 Giuseppe Maxia made the relational schema and Patrick Crews exported
 the data in relational format.
