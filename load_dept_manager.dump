@@ -1,4 +1,4 @@
-INSERT INTO `dept_manager` VALUES 
+INSERT INTO `dept_manager`(emp_no, dept_no,from_date, to_date) VALUES 
 (110022,'d001','1985-01-01','1991-10-01'),
 
 (110039,'d001','1991-10-01','9999-01-01'),
