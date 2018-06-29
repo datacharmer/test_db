@@ -1,3 +1,9 @@
+# Employee Test Database for MySQL
+This repo is for use with my course [SQL Beginner to Guru: MySQL Edition](https://www.udemy.com/sql-beginner-to-guru-mysql-edition/?couponCode=GITHUB_REPO). 
+
+This repo has been forked from the original MySQL repository for the employee database. The original readme file follows below.
+
+
 # test_db
 A sample database with an integrated test suite, used to test your applications and database servers
 
