@@ -22,18 +22,18 @@
 --  Any similarity to existing people is purely coincidental.
 -- 
 
-DROP DATABASE IF EXISTS employees;
-CREATE DATABASE IF NOT EXISTS employees;
-USE employees;
+--DROP DATABASE IF EXISTS employees;
+--CREATE DATABASE IF NOT EXISTS employees;
+--USE employees;
 
-SELECT 'CREATING DATABASE STRUCTURE' as 'INFO';
+--SELECT 'CREATING DATABASE STRUCTURE' as 'INFO';
 
-DROP TABLE IF EXISTS dept_emp,
-                     dept_manager,
-                     titles,
-                     salaries, 
-                     employees, 
-                     departments;
+--DROP TABLE IF EXISTS dept_emp,
+--                     dept_manager,
+--                     titles,
+--                     salaries, 
+--                     employees, 
+--                     departments;
 
 /*!50503 set default_storage_engine = InnoDB */;
 /*!50503 select CONCAT('storage engine: ', @@default_storage_engine) as INFO */;
@@ -95,33 +95,35 @@ CREATE TABLE salaries (
 ) 
 ; 
 
-CREATE OR REPLACE VIEW dept_emp_latest_date AS
-    SELECT emp_no, MAX(from_date) AS from_date, MAX(to_date) AS to_date
+--CREATE OR REPLACE VIEW dept_emp_latest_date AS
+--Just do a select
+SELECT emp_no, MAX(from_date) AS from_date, MAX(to_date) AS to_date
     FROM dept_emp
     GROUP BY emp_no;
 
-# shows only the current department for each employee
-CREATE OR REPLACE VIEW current_dept_emp AS
-    SELECT l.emp_no, dept_no, l.from_date, l.to_date
-    FROM dept_emp d
-        INNER JOIN dept_emp_latest_date l
-        ON d.emp_no=l.emp_no AND d.from_date=l.from_date AND l.to_date = d.to_date;
+--# shows only the current department for each employee
+--Remove since we don't support join
+--CREATE OR REPLACE VIEW current_dept_emp AS
+--    SELECT l.emp_no, dept_no, l.from_date, l.to_date
+--    FROM dept_emp d
+--        INNER JOIN dept_emp_latest_date l
+--        ON d.emp_no=l.emp_no AND d.from_date=l.from_date AND l.to_date = d.to_date;
 
-flush /*!50503 binary */ logs;
+--flush /*!50503 binary */ logs;
 
-SELECT 'LOADING departments' as 'INFO';
+--SELECT 'LOADING departments' as 'INFO';
 source load_departments.dump ;
-SELECT 'LOADING employees' as 'INFO';
+--SELECT 'LOADING employees' as 'INFO';
 source load_employees.dump ;
-SELECT 'LOADING dept_emp' as 'INFO';
+--SELECT 'LOADING dept_emp' as 'INFO';
 source load_dept_emp.dump ;
-SELECT 'LOADING dept_manager' as 'INFO';
+--SELECT 'LOADING dept_manager' as 'INFO';
 source load_dept_manager.dump ;
-SELECT 'LOADING titles' as 'INFO';
+--SELECT 'LOADING titles' as 'INFO';
 source load_titles.dump ;
-SELECT 'LOADING salaries' as 'INFO';
+--SELECT 'LOADING salaries' as 'INFO';
 source load_salaries1.dump ;
 source load_salaries2.dump ;
 source load_salaries3.dump ;
 
-source show_elapsed.sql ;
+--source show_elapsed.sql ;
