@@ -97,9 +97,6 @@ CREATE TABLE salaries (
 
 --CREATE OR REPLACE VIEW dept_emp_latest_date AS
 --Just do a select
-SELECT emp_no, MAX(from_date) AS from_date, MAX(to_date) AS to_date
-    FROM dept_emp
-    GROUP BY emp_no;
 
 --# shows only the current department for each employee
 --Remove since we don't support join
@@ -125,5 +122,10 @@ source load_titles.dump ;
 source load_salaries1.dump ;
 source load_salaries2.dump ;
 source load_salaries3.dump ;
+
+
+SELECT emp_no, MAX(from_date) AS from_date, MAX(to_date) AS to_date
+    FROM dept_emp
+    GROUP BY emp_no;
 
 --source show_elapsed.sql ;
