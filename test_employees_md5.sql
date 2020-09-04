@@ -32,10 +32,8 @@ CREATE TABLE expected_values (
     recs int not null,
     crc_sha varchar(100) not null,
     crc_md5 varchar(100) not null
-) ENGINE=MyISAM;
+);
 
--- In MySQL 5.0, the creation and update time for  memory tables is not recorded
-/*!50130 ALTER TABLE expected_values engine=memory */;
 
 CREATE TABLE found_values LIKE expected_values;
 
