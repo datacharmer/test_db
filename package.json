@@ -1,0 +1,29 @@
+{
+  "name": "test_db",
+  "version": "1.0.0",
+  "description": "A sample database with an integrated test suite, used to test your applications and database servers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./index.js"
+  
+    
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BrandonPerry-co/test_db.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BrandonPerry-co/test_db/issues"
+  },
+  "homepage": "https://github.com/BrandonPerry-co/test_db#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.7"
+  }
+}

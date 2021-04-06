@@ -1,0 +1,47 @@
+{
+  "name": "sqlstring",
+  "description": "Simple SQL escape and format for MySQL",
+  "version": "2.3.1",
+  "contributors": [
+    "Adri Van Houdt <adri.van.houdt@gmail.com>",
+    "Douglas Christopher Wilson <doug@somethingdoug.com>",
+    "fengmk2 <fengmk2@gmail.com> (http://fengmk2.github.com)",
+    "Kevin Jose Martin <kevin@tiliq.com>",
+    "Nathan Woltman <nwoltman@outlook.com>",
+    "Sergej Sintschilin <seregpie@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "sqlstring",
+    "sql",
+    "escape",
+    "sql escape"
+  ],
+  "repository": "mysqljs/sqlstring",
+  "devDependencies": {
+    "beautify-benchmark": "0.2.4",
+    "benchmark": "2.1.4",
+    "eslint": "4.18.1",
+    "eslint-plugin-markdown": "1.0.0-beta.6",
+    "nyc": "10.3.2",
+    "urun": "0.0.8",
+    "utest": "0.0.8"
+  },
+  "files": [
+    "lib/",
+    "HISTORY.md",
+    "LICENSE",
+    "README.md",
+    "index.js"
+  ],
+  "engines": {
+    "node": ">= 0.6"
+  },
+  "scripts": {
+    "bench": "node benchmark/index.js",
+    "lint": "eslint --plugin markdown --ext js,md .",
+    "test": "node test/run.js",
+    "test-ci": "nyc --reporter=text npm test",
+    "test-cov": "nyc --reporter=html --reporter=text npm test"
+  }
+}
