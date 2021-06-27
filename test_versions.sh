@@ -38,7 +38,7 @@ fi
 
 for short_version in 5.0 5.1 5.5 5.6 5.7 8.0
 do
-    version=$($dbdeployer info version $short_version)
+    version=($dbdeployer info version $short_version)
     if [ -z "$version" ]
     then
         continue
