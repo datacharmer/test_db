@@ -107,7 +107,7 @@ CREATE OR REPLACE VIEW current_dept_emp AS
         INNER JOIN dept_emp_latest_date l
         ON d.emp_no=l.emp_no AND d.from_date=l.from_date AND l.to_date = d.to_date;
 
-flush /*!50503 binary */ logs;
+-- flush /*!50503 binary */ logs;
 
 SELECT 'LOADING departments' as 'INFO';
 source load_departments.dump ;
