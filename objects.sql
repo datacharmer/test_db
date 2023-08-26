@@ -3,7 +3,7 @@ use employees;
 delimiter //
 drop function if exists emp_dept_id //
 drop function if exists emp_dept_name //
-drop function if exists emp_name ///
+drop function if exists emp_name //
 drop function if exists current_manager //
 drop procedure if exists show_departments //
 
