@@ -1,5 +1,6 @@
 # Employees Database Schema Overview
 
+
 ## Tables
 
 ### employees
@@ -36,4 +37,4 @@
 - emp_no (INT, FK)
 - dept_no (CHAR, FK)
 - from_date (DATE)
-- to_date (DATE)
+- to_date (DATE) 
