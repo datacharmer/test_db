@@ -1,5 +1,0 @@
--- Find top 10 highest paid employees
--- Count employees per department
--- Find employees hired after 2000
--- Average salary by title
--- Average salary per department
