@@ -220,4 +220,7 @@ http://creativecommons.org/licenses/by-sa/3.0/ or send a letter to
 Creative Commons, 171 Second Street, Suite 300, San Francisco, 
 California, 94105, USA.
 
+## Common Errors
 
+Error: Access denied for user 'root'
+Solution: Make sure you are using the correct password and host.
