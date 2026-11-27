@@ -42,21 +42,15 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y postgresql-${PG_VERSION} postgresql-client-${PG_VERSION}
 
-      - name: Set up PostgreSQL binaries for dbdeployer
+      - name: Unpack PostgreSQL and deploy sandbox
         run: |
           sudo systemctl stop postgresql || true
-          PG_FULL=$(dpkg -s postgresql-${PG_VERSION} | grep '^Version:' | sed 's/Version: //' | cut -d'-' -f1)
-          echo "PostgreSQL version: ${PG_FULL}"
-          mkdir -p ~/opt/postgresql/${PG_FULL}/{bin,lib,share}
-          cp -a /usr/lib/postgresql/${PG_VERSION}/bin/. ~/opt/postgresql/${PG_FULL}/bin/
-          cp -a /usr/lib/postgresql/${PG_VERSION}/lib/. ~/opt/postgresql/${PG_FULL}/lib/
-          cp -a /usr/share/postgresql/${PG_VERSION}/. ~/opt/postgresql/${PG_FULL}/share/
-
-      - name: Deploy sandbox
-        run: |
-          PG_FULL=$(ls ~/opt/postgresql/ | head -1)
-          echo "Deploying PostgreSQL ${PG_FULL}..."
-          dbdeployer deploy postgresql "${PG_FULL}"
+          apt-get download "postgresql-${PG_VERSION}" "postgresql-client-${PG_VERSION}"
+          dbdeployer unpack --provider=postgresql \
+            postgresql-"${PG_VERSION}"_*.deb postgresql-client-"${PG_VERSION}"_*.deb
+          PG_FULL=$(dpkg-deb -f postgresql-"${PG_VERSION}"_*.deb Version)
+          PG_FULL="${PG_FULL#*:}"
+          dbdeployer deploy postgresql "${PG_FULL%%-*}"
 
       - name: Verify sandbox
         run: |
