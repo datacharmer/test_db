@@ -15,10 +15,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # Keep these pins on releases available from the public mirrors.
         mariadb-version:
-          - '10.11.9'
-          - '11.4.5'
-          - '12.1.2'
+          - '10.11.20'
+          - '11.4.14'
+          - '12.3.4'
     env:
       SANDBOX_BINARY: ${{ github.workspace }}/opt/mysql
       MARIADB_VERSION: ${{ matrix.mariadb-version }}
@@ -45,7 +46,7 @@ jobs:
       - name: Download MariaDB
         run: |
           TARBALL="mariadb-${MARIADB_VERSION}-linux-systemd-x86_64.tar.gz"
-          URL="https://archive.mariadb.org/mariadb-${MARIADB_VERSION}/bintar-linux-systemd-x86_64/${TARBALL}"
+          URL="https://mirror.mariadb.org/mariadb-${MARIADB_VERSION}/bintar-linux-systemd-x86_64/${TARBALL}"
           mkdir -p /tmp/mariadb-tarball
           if [ ! -f "/tmp/mariadb-tarball/$TARBALL" ]; then
             echo "Downloading MariaDB ${MARIADB_VERSION}..."
